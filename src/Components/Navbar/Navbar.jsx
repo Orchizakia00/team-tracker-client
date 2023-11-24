@@ -44,7 +44,7 @@ function Component() {
                         {user && <span className="block text-sm">{user?.displayName}</span>}
                         {user && <span className="block truncate text-sm font-medium">{user.email}</span>}
                     </Dropdown.Header>
-                    <Dropdown.Item>Dashboard</Dropdown.Item>
+                    <Link to={'/dashboard'}><Dropdown.Item>Dashboard</Dropdown.Item></Link>
                     <Dropdown.Item>Settings</Dropdown.Item>
                     <Dropdown.Item>Earnings</Dropdown.Item>
                     <Dropdown.Divider />

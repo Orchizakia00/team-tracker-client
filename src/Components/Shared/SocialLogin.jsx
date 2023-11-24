@@ -3,12 +3,15 @@ import { FcGoogle } from "react-icons/fc";
 import useAuth from '../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 
 const SocialLogin = () => {
 
     const { googleSignIn, updateUserProfile } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosPublic = useAxiosPublic();
+
 
     const from = location.state?.from.pathname || "/";
 
@@ -18,10 +21,12 @@ const SocialLogin = () => {
                 console.log(result.user);
                 const userInfo = {
                     email: result.user?.email,
-                    name: result.user?.displayName,
-                    photo: result.user?.photoURL,
+                    name: result.user?.displayName
                 }
-                console.log(userInfo);
+                axiosPublic.post('/users', userInfo)
+                .then(res => {
+                    console.log(res.data);
+                })
                 updateUserProfile(userInfo.name, userInfo.photo)
                     .then(() => {
                         console.log('user profile updated successfully');
