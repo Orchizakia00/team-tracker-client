@@ -6,8 +6,8 @@ const Home = () => {
     return (
         <div className="min-h-screen">
             <Banner />
-            <Testimonial></Testimonial>
             <Services></Services>
+            <Testimonial></Testimonial>
         </div>
     );
 };
