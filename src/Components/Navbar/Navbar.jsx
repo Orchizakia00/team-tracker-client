@@ -22,42 +22,44 @@ function Component() {
         <Link to={'/'}><Navbar.Link href="#">Home</Navbar.Link></Link>
         <Link to={'/contact'}><Navbar.Link href="#">Contact Us</Navbar.Link></Link>
         {
-            !user && <Link to={'/login'}><Navbar.Link href="#">Login</Navbar.Link></Link> 
+            !user && <Link to={'/login'}><Navbar.Link href="#">Login</Navbar.Link></Link>
         }
     </>
 
     return (
-        <Navbar fluid rounded>
-            <Navbar.Brand href="/">
-                <img src="/icon.png" className="mr-3 h-6 sm:h-9" alt="" />
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Team Tracker</span>
-            </Navbar.Brand>
-            <div className="flex md:order-2">
-                <Dropdown
-                    arrowIcon={false}
-                    inline
-                    label={
-                        <Avatar alt="User" img={user?.photoURL} rounded />
-                    }
-                >
-                    <Dropdown.Header>
-                        {user && <span className="block text-sm">{user?.displayName}</span>}
-                        {user && <span className="block truncate text-sm font-medium">{user.email}</span>}
-                    </Dropdown.Header>
-                    <Link to={'/dashboard'}><Dropdown.Item>Dashboard</Dropdown.Item></Link>
-                    <Dropdown.Item>Settings</Dropdown.Item>
-                    <Dropdown.Item>Earnings</Dropdown.Item>
-                    <Dropdown.Divider />
-                    {
-                        user && <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
-                    }
-                </Dropdown>
-                <Navbar.Toggle />
-            </div>
-            <Navbar.Collapse>
-                {navLinks}
-            </Navbar.Collapse>
-        </Navbar>
+        <div className="">
+            <Navbar fluid rounded>
+                <Navbar.Brand href="/">
+                    <img src="/icon.png" className="mr-3 h-6 sm:h-9" alt="" />
+                    <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Team Tracker</span>
+                </Navbar.Brand>
+                <div className="flex md:order-2">
+                    <Dropdown
+                        arrowIcon={false}
+                        inline
+                        label={
+                            <Avatar alt="User" img={user?.photoURL} rounded />
+                        }
+                    >
+                        <Dropdown.Header>
+                            {user && <span className="block text-sm">{user?.displayName}</span>}
+                            {user && <span className="block truncate text-sm font-medium">{user.email}</span>}
+                        </Dropdown.Header>
+                        <Link to={'/dashboard'}><Dropdown.Item>Dashboard</Dropdown.Item></Link>
+                        <Dropdown.Item>Settings</Dropdown.Item>
+                        <Dropdown.Item>Earnings</Dropdown.Item>
+                        <Dropdown.Divider />
+                        {
+                            user && <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
+                        }
+                    </Dropdown>
+                    <Navbar.Toggle />
+                </div>
+                <Navbar.Collapse>
+                    {navLinks}
+                </Navbar.Collapse>
+            </Navbar>
+        </div>
     );
 }
 export default Component;

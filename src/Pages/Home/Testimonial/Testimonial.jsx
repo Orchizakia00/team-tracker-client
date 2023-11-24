@@ -20,7 +20,7 @@ const Testimonial = () => {
     }, [])
 
     return (
-        <div>
+        <div className="">
             <SectionTitle heading={'Testimonials'} subHeading={'Our Employees Say'}></SectionTitle>
 
             <Swiper
