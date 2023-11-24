@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../../Components/Shared/SocialLogin";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Register = () => {
 
+    const axiosPublic = useAxiosPublic();
     const { createUser, updateUserProfile } = useAuth();
     const navigate = useNavigate();
 
@@ -40,18 +42,21 @@ const Register = () => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
                 updateUserProfile(data.name, data.photo)
-                .then(() => {
-                    console.log('user profile updated successfully');
-                    const userInfo = {
-                        name: data.name,
-                        email: data.email
-                    }
-                    console.log(userInfo);
-                    toast.success('User Created Successfully!')
-                    
-                    navigate('/')
-                })
-                navigate('/');
+                    .then(() => {
+                        console.log('user profile updated successfully');
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    toast.success('User Created Successfully!')
+                                    navigate('/')
+                                }
+                            })
+
+                    })
             })
     }
 
