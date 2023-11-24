@@ -1,13 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Label, TextInput } from "flowbite-react";
 import SocialLogin from "../../Components/Shared/SocialLogin";
 import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 
 const Login = () => {
 
     const { signIn } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from.pathname || "/";
 
     const handleLogin = event => {
         event.preventDefault();
@@ -20,7 +24,8 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
-                navigate('/');
+                toast.success("User Logged In Successfully!")
+                navigate(from, { replace: true });
             })
     }
 

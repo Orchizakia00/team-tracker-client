@@ -37,11 +37,11 @@ function Component() {
                     arrowIcon={false}
                     inline
                     label={
-                        <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+                        <Avatar alt="User" img={user?.photoURL} rounded />
                     }
                 >
                     <Dropdown.Header>
-                        {user && <span className="block text-sm">{user.displayName}</span>}
+                        {user && <span className="block text-sm">{user?.displayName}</span>}
                         {user && <span className="block truncate text-sm font-medium">{user.email}</span>}
                     </Dropdown.Header>
                     <Dropdown.Item>Dashboard</Dropdown.Item>

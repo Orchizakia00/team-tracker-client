@@ -1,6 +1,5 @@
 [
     {
-        "id": 1,
         "employee_id": 12345,
         "employee_name": "John Doe",
         "position": "Senior Software Engineer",
@@ -9,7 +8,6 @@
         "date": "2023-11-24"
     },
     {
-        "id": 2,
         "employee_id": 67890,
         "employee_name": "Jane Smith",
         "position": "Marketing Specialist",
@@ -18,7 +16,6 @@
         "date": "2023-11-25"
     },
     {
-        "id": 3,
         "employee_id": 54321,
         "employee_name": "Alex Johnson",
         "position": "HR Manager",
@@ -27,7 +24,6 @@
         "date": "2023-11-26"
     },
     {
-        "id": 4,
         "employee_id": 98765,
         "employee_name": "Emily Davis",
         "position": "Financial Analyst",

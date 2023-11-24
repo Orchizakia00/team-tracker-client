@@ -14,10 +14,12 @@ const Register = () => {
 
         const form = event.target;
         const name = form.name.value;
+        const photo = form.photo.value;
         const email = form.email.value;
         const password = form.password.value;
         const data = {
             name,
+            photo,
             email,
             password
         };
@@ -37,7 +39,7 @@ const Register = () => {
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
-                updateUserProfile(data.name, data.photoURL)
+                updateUserProfile(data.name, data.photo)
                 .then(() => {
                     console.log('user profile updated successfully');
                     const userInfo = {
@@ -45,6 +47,8 @@ const Register = () => {
                         email: data.email
                     }
                     console.log(userInfo);
+                    toast.success('User Created Successfully!')
+                    
                     navigate('/')
                 })
                 navigate('/');
@@ -61,9 +65,15 @@ const Register = () => {
                 <form onSubmit={handleRegister} className="flex max-w-md mx-auto mt-6 flex-col gap-4">
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="email1" value="Your name" />
+                            <Label htmlFor="name" value="Your name" />
                         </div>
-                        <TextInput id="email1" name="name" type="text" placeholder="Name" required />
+                        <TextInput id="name" name="name" type="text" placeholder="Name" required />
+                    </div>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="photo" value="PhotoURL" />
+                        </div>
+                        <TextInput id="photo" name="photo" type="text" placeholder="Photo URL" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
