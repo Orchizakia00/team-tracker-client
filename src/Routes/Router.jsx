@@ -12,6 +12,7 @@ import Progress from "../Pages/Dashboard/HrPages/Progress";
 import AllEmployeeList from "../Pages/Dashboard/AdminPages/AllEmployeeList";
 import PaymentHistory from "../Pages/Dashboard/EmployeePages/PaymentHistory";
 import WorkSheet from "../Pages/Dashboard/EmployeePages/WorkSheet";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
     {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
             // hr specific routes
             {
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
             // admin specific routes
             {
                 path: 'all-employee-list',
-                element: <AllEmployeeList />,
+                element: <AdminRoute><AllEmployeeList /></AdminRoute>,
             },
 
             // employee specific routes

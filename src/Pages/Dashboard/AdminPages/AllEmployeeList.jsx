@@ -17,18 +17,18 @@ const AllEmployeeList = () => {
         }
     });
 
-    const handleMakeAdmin = user => {
+    const handleMakeHR = user => {
         axiosSecure.patch(`/users/admin/${user._id}`)
             .then(res => {
                 console.log(res.data);
                 if (res.data.modifiedCount > 0) {
                     refetch();
-                    toast.success(`${user.name} is an Admin now!`)
+                    toast.success(`${user.name} is a HR now!`)
                 }
             })
     }
 
-    const handleDelete = user => {
+    const handleFire = user => {
         toast.custom((t) => (
             <div
                 className={`${t.visible ? 'animate-enter' : 'animate-leave'
@@ -38,7 +38,7 @@ const AllEmployeeList = () => {
                     <div className="flex items-start">
                         <div className="ml-3 flex-1">
                             <p className="mt-1 text-sm text-gray-500">
-                                Are you sure you want to delete?
+                                Are you sure you want to fire?
                             </p>
                         </div>
                     </div>
@@ -47,12 +47,12 @@ const AllEmployeeList = () => {
                     <button
                         onClick={() => {
                             toast.dismiss(t.id);
-                            // Handle deletion logic here
-                            axiosSecure.delete(`/users/${user._id}`)
+                            axiosSecure.patch(`/users/${user._id}`)
                                 .then(res => {
-                                    if (res.data.deletedCount > 0) {
+                                    console.log(res.data);
+                                    if (res.data.modifiedCount > 0) {
                                         refetch();
-                                        toast.success('User has been deleted successfully');
+                                        toast.success(`${user.name} is Fired!`)
                                     }
                                 })
                         }}
@@ -84,7 +84,7 @@ const AllEmployeeList = () => {
                         <Table.HeadCell>Index</Table.HeadCell>
                         <Table.HeadCell>Employee Name</Table.HeadCell>
                         <Table.HeadCell>Designation</Table.HeadCell>
-                        <Table.HeadCell>Role</Table.HeadCell>
+                        <Table.HeadCell>Make HR</Table.HeadCell>
                         <Table.HeadCell>Action</Table.HeadCell>
                         <Table.HeadCell>
                             <span className="sr-only">Edit</span>
@@ -98,16 +98,16 @@ const AllEmployeeList = () => {
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                         {user.name}
                                     </Table.Cell>
-                                    <Table.Cell>Sliver</Table.Cell>
+                                    <Table.Cell>{user?.role}</Table.Cell>
                                     <Table.Cell>
-                                        {user.role === 'admin' ? "Admin" : <Button onClick={() => handleMakeAdmin(user)} className="text-blue-600 bg-white hover:text-white">
+                                        {user.role === 'HR' ? "HR" : <Button onClick={() => handleMakeHR(user)} className="text-blue-600 bg-white hover:text-white">
                                             <FaUser size={20} />
                                         </Button>}
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <Button onClick={() => handleDelete(user)} className="text-red-600 bg-white hover:text-white">
+                                        {user.status === 'fired' ? "Fired" :<Button onClick={() => handleFire(user)} className="text-red-600 bg-white hover:text-white">
                                             <FaFire size={20}></FaFire>
-                                        </Button>
+                                        </Button>}
                                     </Table.Cell>
                                 </Table.Row>
                             )

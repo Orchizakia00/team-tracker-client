@@ -1,9 +1,10 @@
 import { Button, Label, TextInput } from "flowbite-react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../../Components/Shared/SocialLogin";
 import useAuth from "../../Hooks/useAuth";
-import toast from "react-hot-toast";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+
 
 const Register = () => {
 
@@ -11,17 +12,19 @@ const Register = () => {
     const { createUser, updateUserProfile } = useAuth();
     const navigate = useNavigate();
 
-    const handleRegister = event => {
+    const handleRegister = async  (event) => {
         event.preventDefault();
 
         const form = event.target;
         const name = form.name.value;
         const photo = form.photo.value;
+        const role = form.role.value;
         const email = form.email.value;
         const password = form.password.value;
         const data = {
             name,
             photo,
+            role,
             email,
             password
         };
@@ -46,7 +49,8 @@ const Register = () => {
                         console.log('user profile updated successfully');
                         const userInfo = {
                             name: data.name,
-                            email: data.email
+                            email: data.email,
+                            role: data.role
                         }
                         axiosPublic.post('/users', userInfo)
                             .then(res => {
@@ -61,7 +65,7 @@ const Register = () => {
     }
 
     return (
-        <div className="flex my-10 w-[1200px] mx-auto bg-white">
+        <div className="flex my-10 lg:w-[1200px] mx-auto bg-white">
             <div className="flex-1">
                 <img src="https://i.ibb.co/DzjwVLx/user-verification-unauthorized-access-prevention-private-account-authentication-cyber-security-peopl.jpg" alt="" />
             </div>
@@ -76,9 +80,27 @@ const Register = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="photo" value="PhotoURL" />
+                            <Label htmlFor="name" value="PhotoURL" />
                         </div>
-                        <TextInput id="photo" name="photo" type="text" placeholder="Photo URL" required />
+                        <TextInput id="photo" name="photo" type="text" placeholder="PhotoURL" required />
+                    </div>
+                    {/* <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="file-upload" value="Upload Photo" />
+                        </div>
+                        <FileInput id="file-upload" name="photo" />
+                    </div> */}
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="photo" value="Your Role" />
+                        </div>
+                        <select name="role" defaultValue="default"
+                            className="w-full">
+                            <option disabled value="default">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="hr">HR</option>
+                            <option value="employee">Employee</option>
+                        </select>
                     </div>
                     <div>
                         <div className="mb-2 block">
@@ -92,7 +114,7 @@ const Register = () => {
                         </div>
                         <TextInput id="password1" name="password" type="password" placeholder="Password" required />
                     </div>
-                    <Button type="submit">Login</Button>
+                    <Button type="submit">Register</Button>
                     <SocialLogin />
                 </form>
                 <p className="text-center">Already have an account? Please <Link to={'/login'}><span className="text-blue-600 font-bold">Login</span></Link></p>
