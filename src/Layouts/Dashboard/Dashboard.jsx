@@ -3,11 +3,11 @@
 import { Sidebar } from 'flowbite-react';
 import { FaFile, FaMoneyBill, FaTruckLoading, FaUser, FaUsers } from 'react-icons/fa';
 import { Link, Outlet } from 'react-router-dom';
+import useAdmin from '../../Hooks/useAdmin';
 
 const Dashboard = () => {
 
-    // TODO: get admin value from db
-    const isAdmin = true;
+    const isAdmin = useAdmin();
     return (
         <div className='flex flex-col  lg:flex-row  gap-6 min-h-screen lg:w-[1400px] mx-auto'>
             <div className='w-64'>
