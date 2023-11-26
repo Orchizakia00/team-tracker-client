@@ -3,6 +3,7 @@ import { Button, Table } from "flowbite-react";
 import { FaFire, FaUser } from "react-icons/fa";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import SectionTitle from "../../../Components/Shared/SectionTitle";
 
 
 const AllEmployeeList = () => {
@@ -73,12 +74,9 @@ const AllEmployeeList = () => {
 
     return (
         <div>
-            <div className="flex justify-evenly my-5">
-                <h2 className="text-4xl font-bold flex-1">All Users</h2>
-                <h2 className="text-4xl font-bold flex-1">Total Users: {users.length}</h2>
-            </div>
+            <SectionTitle heading={'All Employees'} subHeading={`Total Employees: ${users.length}`}></SectionTitle>
 
-            <div>
+            <div className="mb-20">
                 <Table hoverable>
                     <Table.Head>
                         <Table.HeadCell>Index</Table.HeadCell>
@@ -86,9 +84,6 @@ const AllEmployeeList = () => {
                         <Table.HeadCell>Designation</Table.HeadCell>
                         <Table.HeadCell>Make HR</Table.HeadCell>
                         <Table.HeadCell>Action</Table.HeadCell>
-                        <Table.HeadCell>
-                            <span className="sr-only">Edit</span>
-                        </Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
                         {
@@ -105,7 +100,7 @@ const AllEmployeeList = () => {
                                         </Button>}
                                     </Table.Cell>
                                     <Table.Cell>
-                                        {user.status === 'fired' ? "Fired" :<Button onClick={() => handleFire(user)} className="text-red-600 bg-white hover:text-white">
+                                        {user.action === 'fired' ? "Fired" :<Button onClick={() => handleFire(user)} className="text-red-600 bg-white hover:text-white">
                                             <FaFire size={20}></FaFire>
                                         </Button>}
                                     </Table.Cell>

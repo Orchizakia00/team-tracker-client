@@ -18,13 +18,17 @@ const Register = () => {
         const form = event.target;
         const name = form.name.value;
         const photo = form.photo.value;
+        const bank = form.bank.value;
         const role = form.role.value;
+        const salary = form.salary.value;
         const email = form.email.value;
         const password = form.password.value;
         const data = {
             name,
             photo,
+            bank,
             role,
+            salary,
             email,
             password
         };
@@ -50,7 +54,9 @@ const Register = () => {
                         const userInfo = {
                             name: data.name,
                             email: data.email,
-                            role: data.role
+                            role: data.role,
+                            bank: data.bank,
+                            salary: data.salary,
                         }
                         axiosPublic.post('/users', userInfo)
                             .then(res => {
@@ -84,12 +90,12 @@ const Register = () => {
                         </div>
                         <TextInput id="photo" name="photo" type="text" placeholder="PhotoURL" required />
                     </div>
-                    {/* <div>
+                    <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="file-upload" value="Upload Photo" />
+                            <Label htmlFor="bank" value="Bank Account No" />
                         </div>
-                        <FileInput id="file-upload" name="photo" />
-                    </div> */}
+                        <TextInput id="bank" name="bank" type="number" placeholder="Bank Account No" required />
+                    </div>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="photo" value="Your Role" />
@@ -101,6 +107,12 @@ const Register = () => {
                             <option value="hr">HR</option>
                             <option value="employee">Employee</option>
                         </select>
+                    </div>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="bank" value="Salary" />
+                        </div>
+                        <TextInput id="salary" name="salary" type="number" placeholder="Salary" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
