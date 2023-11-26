@@ -1,14 +1,20 @@
-import { Button, Label } from "flowbite-react";
+import { Button, Label, Table } from "flowbite-react";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import SectionTitle from "../../../Components/Shared/SectionTitle";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import SectionTitle from "../../../Components/Shared/SectionTitle";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useWork from "../../../Hooks/useWork";
 
 const WorkSheet = () => {
     const [startDate, setStartDate] = useState(new Date());
-    const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
+    const [works, refetch] = useWork();
+
+    console.log(works);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,18 +25,20 @@ const WorkSheet = () => {
         const date = form.date.value;
 
         const workDetails = {
+            email: user.email,
             hour,
             task,
             date
         }
         console.log(workDetails);
 
-        axiosPublic.post('/works', workDetails)
+        axiosSecure.post('/works', workDetails)
             .then(res => {
                 console.log(res.data);
                 if (res.data.insertedId) {
                     toast.success('Work details saved successfully!')
                 }
+                refetch();
             })
     }
 
@@ -69,6 +77,38 @@ const WorkSheet = () => {
                 <DatePicker className="w-full rounded-md mb-4" name="date" selected={startDate} onChange={(date) => setStartDate(date)} />
                 <Button type="submit">Submit</Button>
             </form>
+
+            <SectionTitle heading={'Saved Works'}></SectionTitle>
+            <div className="mb-20">
+                <Table hoverable>
+                    <Table.Head>
+                        <Table.HeadCell>Index</Table.HeadCell>
+                        <Table.HeadCell>Email</Table.HeadCell>
+                        <Table.HeadCell>Task</Table.HeadCell>
+                        <Table.HeadCell>Working Hour</Table.HeadCell>
+                        <Table.HeadCell>Date</Table.HeadCell>
+                    </Table.Head>
+                    <Table.Body className="divide-y">
+                        {
+                            works.map((work, index) =>
+                                <Table.Row key={work._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                    <Table.Cell>{index + 1}</Table.Cell>
+                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                        {work.email}
+                                    </Table.Cell>
+                                    <Table.Cell>{work.task}</Table.Cell>
+                                    <Table.Cell>
+                                        {work.hour}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {work.date}
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
+                        }
+                    </Table.Body>
+                </Table>
+            </div>
         </div>
     );
 };
