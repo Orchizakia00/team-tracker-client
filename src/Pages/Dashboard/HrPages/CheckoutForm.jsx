@@ -1,13 +1,23 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { Button } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ salary, name }) => {
     const [error, setError] = useState([]);
+    const [clientSecret, setClientSecret] = useState('');
     const stripe = useStripe();
     const elements = useElements();
+    const axiosSecure = useAxiosSecure();
+    console.log(salary, name);
 
+    useEffect( () => {
+        axiosSecure.post('/create-payment-intent', {price: salary})
+        .then(res => {
+            console.log(res.data.clientSecret);
+            setClientSecret(res.data.clientSecret);
+        })
+    }, [axiosSecure, salary])
 
     const handleSubmit = async (event) => {
         event.preventDefault();

@@ -1,20 +1,21 @@
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Checkbox, Label, Modal, Table, TextInput } from "flowbite-react";
+import { Button, Label, Modal, Table, TextInput } from "flowbite-react";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { CgClose } from "react-icons/cg";
 import { FcCheckmark, FcViewDetails } from "react-icons/fc";
+import { Link } from "react-router-dom";
 import SectionTitle from "../../../Components/Shared/SectionTitle";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
-import { CgClose } from "react-icons/cg";
-import { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 
 const EmployeeList = () => {
 
     const axiosSecure = useAxiosSecure();
     const [openModal, setOpenModal] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState([]);
 
     function onCloseModal() {
         setOpenModal(false);
@@ -78,7 +79,11 @@ const EmployeeList = () => {
                                         {
                                             employee.isVerified === true ?
                                                 <>
-                                                    <Button onClick={() => setOpenModal(true)}>Pay</Button>
+                                                    {/* <Button onClick={() => setOpenModal(true)}>Pay</Button> */}
+                                                    <Button onClick={() => {
+                                                        setSelectedEmployee(employee);
+                                                        setOpenModal(true);
+                                                    }}>Pay</Button>
                                                     <Modal show={openModal} size="md" onClose={onCloseModal} popup>
                                                         <Modal.Header />
                                                         <Modal.Body>
@@ -90,19 +95,16 @@ const EmployeeList = () => {
                                                                     </div>
                                                                     <TextInput
                                                                         id="salary"
-                                                                        defaultValue={employee.salary}
+                                                                        defaultValue={selectedEmployee?.salary}
                                                                         required
                                                                     />
                                                                 </div>
                                                                 <div>
                                                                     <Elements stripe={stripPromise}>
-                                                                        <CheckoutForm></CheckoutForm>
+                                                                        <CheckoutForm salary={selectedEmployee.salary} name={employee.name}></CheckoutForm>
                                                                     </Elements>
                                                                 </div>
 
-                                                                <div className="w-full">
-                                                                    {/* <Button>Pay</Button> */}
-                                                                </div>
                                                             </div>
                                                         </Modal.Body>
                                                     </Modal>
