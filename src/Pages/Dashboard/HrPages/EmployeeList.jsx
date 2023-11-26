@@ -1,15 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
-import { Button, Table } from "flowbite-react";
+import { Button, Checkbox, Label, Modal, Table, TextInput } from "flowbite-react";
 import toast from "react-hot-toast";
 import { FcCheckmark, FcViewDetails } from "react-icons/fc";
 import SectionTitle from "../../../Components/Shared/SectionTitle";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import { CgClose } from "react-icons/cg";
+import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "./CheckoutForm";
 
 const EmployeeList = () => {
 
     const axiosSecure = useAxiosSecure();
+    const [openModal, setOpenModal] = useState(false);
+
+    function onCloseModal() {
+        setOpenModal(false);
+    }
+
+    const stripPromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
 
     const { data: employees = [], refetch } = useQuery({
         queryKey: ['employees'],
@@ -41,7 +52,7 @@ const EmployeeList = () => {
                         <Table.HeadCell>Index</Table.HeadCell>
                         <Table.HeadCell>Employee Name</Table.HeadCell>
                         <Table.HeadCell>Email</Table.HeadCell>
-                        <Table.HeadCell>Status</Table.HeadCell>
+                        <Table.HeadCell>Verified</Table.HeadCell>
                         <Table.HeadCell>Bank Account</Table.HeadCell>
                         <Table.HeadCell>Salary</Table.HeadCell>
                         <Table.HeadCell>Pay</Table.HeadCell>
@@ -63,7 +74,42 @@ const EmployeeList = () => {
                                     </Table.Cell>
                                     <Table.Cell>{employee?.bank}</Table.Cell>
                                     <Table.Cell>${employee?.salary}</Table.Cell>
-                                    <Table.Cell><Button>Pay</Button></Table.Cell>
+                                    <Table.Cell>
+                                        {
+                                            employee.isVerified === true ?
+                                                <>
+                                                    <Button onClick={() => setOpenModal(true)}>Pay</Button>
+                                                    <Modal show={openModal} size="md" onClose={onCloseModal} popup>
+                                                        <Modal.Header />
+                                                        <Modal.Body>
+                                                            <div className="space-y-6">
+                                                                <h3 className="text-xl font-medium text-gray-900 dark:text-white">Make Payment</h3>
+                                                                <div>
+                                                                    <div className="mb-2 block">
+                                                                        <Label htmlFor="email" value="Employee's Salary" />
+                                                                    </div>
+                                                                    <TextInput
+                                                                        id="salary"
+                                                                        defaultValue={employee.salary}
+                                                                        required
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    <Elements stripe={stripPromise}>
+                                                                        <CheckoutForm></CheckoutForm>
+                                                                    </Elements>
+                                                                </div>
+
+                                                                <div className="w-full">
+                                                                    {/* <Button>Pay</Button> */}
+                                                                </div>
+                                                            </div>
+                                                        </Modal.Body>
+                                                    </Modal>
+                                                </>
+                                                : <Button disabled>Pay</Button>
+                                        }
+                                    </Table.Cell>
                                     <Table.Cell><Link to={`/dashboard/employee-details/${employee._id}`}><FcViewDetails size={30} /></Link></Table.Cell>
 
                                 </Table.Row>
