@@ -1,7 +1,7 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Label, Modal, Table, TextInput } from "flowbite-react";
+import { Button, Modal, Table } from "flowbite-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { CgClose } from "react-icons/cg";
@@ -88,20 +88,10 @@ const EmployeeList = () => {
                                                         <Modal.Header />
                                                         <Modal.Body>
                                                             <div className="space-y-6">
-                                                                <h3 className="text-xl font-medium text-gray-900 dark:text-white">Make Payment</h3>
-                                                                <div>
-                                                                    <div className="mb-2 block">
-                                                                        <Label htmlFor="email" value="Employee's Salary" />
-                                                                    </div>
-                                                                    <TextInput
-                                                                        id="salary"
-                                                                        defaultValue={selectedEmployee?.salary}
-                                                                        required
-                                                                    />
-                                                                </div>
+                                                                <h3 className="text-xl font-medium text-gray-900 dark:text-white">Make Payment for {selectedEmployee?.name}</h3>
                                                                 <div>
                                                                     <Elements stripe={stripPromise}>
-                                                                        <CheckoutForm salary={selectedEmployee.salary} name={employee.name}></CheckoutForm>
+                                                                        <CheckoutForm salary={selectedEmployee.salary} _id={selectedEmployee._id}></CheckoutForm>
                                                                     </Elements>
                                                                 </div>
 

@@ -1,26 +1,35 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAuth from "../../../Hooks/useAuth";
+import toast from "react-hot-toast";
+import { Label, TextInput } from "flowbite-react";
 
 
-const CheckoutForm = ({ salary, name }) => {
+const CheckoutForm = ({ salary, _id }) => {
     const [error, setError] = useState([]);
     const [clientSecret, setClientSecret] = useState('');
+    const [transactionId, setTransactionId] = useState('');
     const stripe = useStripe();
     const elements = useElements();
     const axiosSecure = useAxiosSecure();
-    console.log(salary, name);
+    const { user } = useAuth();
 
-    useEffect( () => {
-        axiosSecure.post('/create-payment-intent', {price: salary})
-        .then(res => {
-            console.log(res.data.clientSecret);
-            setClientSecret(res.data.clientSecret);
-        })
+    useEffect(() => {
+        axiosSecure.post('/create-payment-intent', { price: salary })
+            .then(res => {
+                setClientSecret(res.data.clientSecret);
+            })
     }, [axiosSecure, salary])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const form = event.target;
+        const month = form.month.value;
+        const year = form.year.value;
+
+        const date = {year, month};
+        console.log(date);
 
         if (!stripe || !elements) {
             return;
@@ -45,10 +54,94 @@ const CheckoutForm = ({ salary, name }) => {
             console.log('payment method', paymentMethod);
             setError('');
         }
+
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    email: user?.email || 'anonymous',
+                    name: user?.displayName || 'anonymous'
+                }
+            }
+        })
+
+        if (confirmError) {
+            console.log('confirm error');
+        }
+        else {
+            console.log('payment intent', paymentIntent);
+            if (paymentIntent.status === 'succeeded') {
+                console.log('transaction id', paymentIntent.id);
+                setTransactionId(paymentIntent.id);
+
+                const payment = {
+                    _id: _id,
+                    amount: salary,
+                    transactionId: paymentIntent.id,
+                    date: date,
+                }
+
+                // const res = await axiosSecure.patch(`/users/hr/${_id}/payments`, payment)
+                // console.log('payment saved', res.data);
+                // // refetch();
+                // if (res.data.modifiedCount > 0) {
+                //     toast.success('Payment Successful');
+                //     // navigate('/dashboard/paymentHistory')
+                // }
+
+                try {
+                    const res = await axiosSecure.patch(`/users/hr/${_id}/payments`, payment)
+    
+                    if (res.data.modifiedCount > 0) {
+                        toast.success('Payment Successful');
+                        // navigate('/dashboard/paymentHistory')
+                    }
+                } catch (error) {
+                    // Check if the error is due to a duplicate payment
+                    if (error.response && error.response.status === 400) {
+                        toast.error('Payment already made for this month');
+                    } else {
+                        console.error('Error processing payment:', error);
+                        toast.error('Error processing payment');
+                    }
+                }
+            }
+        }
     }
 
     return (
         <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+                <div className="mb-2 block">
+                    <Label htmlFor="email" value="Employee's Salary" />
+                </div>
+                <TextInput
+                    id="salary"
+                    defaultValue={salary}
+                    required
+                />
+            </div>
+            <div className="flex gap-3 mb-8">
+                <div>
+                    <div className="mb-2 block">
+                        <Label htmlFor="email" value="Month" />
+                    </div>
+                    <TextInput
+                        name="month"
+                        required
+                    />
+                </div>
+                <div>
+                    <div className="mb-2 block">
+                        <Label htmlFor="email" value="Year" />
+                    </div>
+                    <TextInput
+                        name="year"
+                        required
+                    />
+                </div>
+            </div>
+
             <CardElement
                 options={{
                     style: {
