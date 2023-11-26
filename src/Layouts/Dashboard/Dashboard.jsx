@@ -1,7 +1,7 @@
 'use client';
 
 import { Sidebar } from 'flowbite-react';
-import { FaFile, FaMoneyBill, FaTruckLoading, FaUser, FaUsers } from 'react-icons/fa';
+import { FaFile, FaMoneyBill, FaTruckLoading, FaUsers } from 'react-icons/fa';
 import { Link, Outlet } from 'react-router-dom';
 import useAdmin from '../../Hooks/useAdmin';
 import useHR from '../../Hooks/useHR';
@@ -38,11 +38,6 @@ const Dashboard = () => {
                                     <Link to={'/dashboard/employee-list'}>
                                         <Sidebar.Item icon={FaUsers}>
                                             Employee List
-                                        </Sidebar.Item>
-                                    </Link>
-                                    <Link to={'/dashboard/employee-details'}>
-                                        <Sidebar.Item icon={FaUser}>
-                                            Employee Details
                                         </Sidebar.Item>
                                     </Link>
                                     <Link to={'/dashboard/progress'}>

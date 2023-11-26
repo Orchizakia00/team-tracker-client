@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Button, Table } from "flowbite-react";
+import toast from "react-hot-toast";
+import { FcCheckmark, FcViewDetails } from "react-icons/fc";
 import SectionTitle from "../../../Components/Shared/SectionTitle";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { Button, Table } from "flowbite-react";
-import { FcCheckmark } from "react-icons/fc";
-import { useQuery } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-
+import { Link } from "react-router-dom";
+import { CgClose } from "react-icons/cg";
 
 const EmployeeList = () => {
 
@@ -16,27 +16,26 @@ const EmployeeList = () => {
         queryFn: async () => {
             const res = await axiosSecure.get('users/hr');
             const employees = res.data;
-            const filteredEmployees = employees.filter(employee => employee.role === 'employee');
-            return filteredEmployees;
+            return employees;
         }
     });
 
-
-    const handleVerify = employee => {
+    const handleToggleVerify = (employee) => {
         axiosSecure.patch(`/users/hr/${employee._id}`)
-            .then(res => {
+            .then((res) => {
                 console.log(res.data);
                 if (res.data.modifiedCount > 0) {
                     refetch();
-                    toast.success(`${employee.name} is verified now!`)
+                    const action = employee.isVerified ? 'unverified' : 'verified';
+                    toast.success(`${employee.name} is ${action} now!`);
                 }
-            })
-    }
+            });
+    };
 
     return (
         <div>
             <SectionTitle heading={'Employee List'} />
-            <div>
+            <div className="mb-16">
                 <Table hoverable>
                     <Table.Head>
                         <Table.HeadCell>Index</Table.HeadCell>
@@ -58,10 +57,15 @@ const EmployeeList = () => {
                                     </Table.Cell>
                                     <Table.Cell>{employee?.email}</Table.Cell>
                                     <Table.Cell>
-                                        {employee.status === 'verified' ? 'Verified' : <Button onClick={() => handleVerify(employee)} className="bg-transparent"> <FcCheckmark size={30} /> </Button>}
+                                        <div onClick={() => handleToggleVerify(employee)} className="cursor-pointer">
+                                            {employee.isVerified === true ? <FcCheckmark size={30} /> : <CgClose className="text-red-700" size={30} />}
+                                        </div>
                                     </Table.Cell>
                                     <Table.Cell>{employee?.bank}</Table.Cell>
                                     <Table.Cell>${employee?.salary}</Table.Cell>
+                                    <Table.Cell><Button>Pay</Button></Table.Cell>
+                                    <Table.Cell><Link to={`/dashboard/employee-details/${employee._id}`}><FcViewDetails size={30} /></Link></Table.Cell>
+
                                 </Table.Row>
                             )
                         }
