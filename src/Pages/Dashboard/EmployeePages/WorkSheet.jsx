@@ -26,6 +26,7 @@ const WorkSheet = () => {
 
         const workDetails = {
             email: user.email,
+            name: user.displayName,
             hour,
             task,
             date
@@ -44,7 +45,7 @@ const WorkSheet = () => {
 
     return (
         <div>
-            <SectionTitle heading={'Work Sheet'} subHeading={'Save your work'}></SectionTitle>
+            <SectionTitle heading={`Work Sheet of ${user.displayName}`} subHeading={'Save your work'}></SectionTitle>
             <form onSubmit={handleSubmit} className="flex w-full mx-auto flex-col gap-4 px-10 rounded-md">
                 <div className="flex justify-between gap-4 mb-4">
                     <div className="flex-1">
@@ -83,7 +84,6 @@ const WorkSheet = () => {
                 <Table hoverable>
                     <Table.Head>
                         <Table.HeadCell>Index</Table.HeadCell>
-                        <Table.HeadCell>Email</Table.HeadCell>
                         <Table.HeadCell>Task</Table.HeadCell>
                         <Table.HeadCell>Working Hour</Table.HeadCell>
                         <Table.HeadCell>Date</Table.HeadCell>
@@ -93,9 +93,6 @@ const WorkSheet = () => {
                             works.map((work, index) =>
                                 <Table.Row key={work._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                     <Table.Cell>{index + 1}</Table.Cell>
-                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                        {work.email}
-                                    </Table.Cell>
                                     <Table.Cell>{work.task}</Table.Cell>
                                     <Table.Cell>
                                         {work.hour}

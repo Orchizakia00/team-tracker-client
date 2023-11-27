@@ -3,7 +3,6 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import SectionTitle from "../../../Components/Shared/SectionTitle";
 import { Table } from "flowbite-react";
-import { FaFire, FaUser } from "react-icons/fa";
 
 
 const PaymentHistory = () => {

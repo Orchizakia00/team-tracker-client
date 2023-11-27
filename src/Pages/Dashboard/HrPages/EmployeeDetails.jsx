@@ -12,7 +12,7 @@ const EmployeeDetails = () => {
     const { name, email, role, photo } = employee;
 
     return (
-        <div>
+        <div className="mb-16">
             <SectionTitle heading={`Employee Details`} />
 
             <Card className="max-w-sm mx-auto space-y-4">
