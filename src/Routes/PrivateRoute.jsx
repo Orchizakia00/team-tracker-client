@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
     const { user, loading } = useAuth();
 
     if (loading) {
-        return <Spinner aria-label="Default status example" />
+        return <Spinner className="flex justify-center items-center" aria-label="Default status example" />
     }
 
     if (user) {

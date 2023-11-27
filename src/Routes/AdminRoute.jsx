@@ -11,7 +11,7 @@ const AdminRoute = ({ children }) => {
     const location = useLocation();
 
     if (loading || isAdminLoading) {
-        return <Spinner aria-label="Default status example" />;
+        return <Spinner className="text-center" aria-label="Default status example" />;
     }
 
     if (user && isAdmin) {

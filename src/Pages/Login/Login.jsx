@@ -3,6 +3,8 @@ import { Button, Label, TextInput } from "flowbite-react";
 import SocialLogin from "../../Components/Shared/SocialLogin";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 
 const Login = () => {
@@ -10,6 +12,15 @@ const Login = () => {
     const { signIn } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosPublic = useAxiosPublic();
+
+    const { data: employees = [] } = useQuery({
+        queryKey: ['employees'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('users/employee');
+            return res.data;
+        }
+    });
 
     const from = location.state?.from.pathname || "/";
 
@@ -19,10 +30,18 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        
         signIn(email, password)
             .then(result => {
                 const user = result.user;
+
+                const firedEmployee = employees.find((employee) => employee.email === email && employee.action === 'fired');
+
+                if (firedEmployee) {
+                    toast.error("You are Fired! Log in not allowed.");
+                    return;
+                }
+
                 console.log(user);
                 toast.success("User Logged In Successfully!")
                 navigate(from, { replace: true });
