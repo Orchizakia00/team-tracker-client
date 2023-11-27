@@ -13,11 +13,13 @@ import AllEmployeeList from "../Pages/Dashboard/AdminPages/AllEmployeeList";
 import PaymentHistory from "../Pages/Dashboard/EmployeePages/PaymentHistory";
 import WorkSheet from "../Pages/Dashboard/EmployeePages/WorkSheet";
 import AdminRoute from "./AdminRoute";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayout />,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: '/',
