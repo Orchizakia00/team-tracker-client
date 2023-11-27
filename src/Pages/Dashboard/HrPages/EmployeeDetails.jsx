@@ -1,6 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import SectionTitle from "../../../Components/Shared/SectionTitle";
 import { Card } from "flowbite-react";
+import PaymentChart from "./PaymentChart";
 // import Image from 'next/image';
 
 
@@ -30,6 +31,10 @@ const EmployeeDetails = () => {
                     <span className="text-sm mb-2 text-gray-500 dark:text-gray-400">Designation: {role}</span>
                 </div>
             </Card>
+
+            <SectionTitle heading={'Payment Chart'} subHeading={'Salary Vs Month'}></SectionTitle>
+
+            <PaymentChart email={email}></PaymentChart>
         </div>
     );
 };
