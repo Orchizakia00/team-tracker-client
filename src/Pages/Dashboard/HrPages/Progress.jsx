@@ -44,6 +44,7 @@ const Progress = () => {
         <div className="mb-16">
             <SectionTitle heading={'Progress'} subHeading={'Works Submitted By Employees'}></SectionTitle>
 
+            {/* dropdown for filtering */}
             <div className="flex justify-between">
                 {/* dropdown for filtering with name */}
                 <div className="relative mb-6 w-72 z-50">

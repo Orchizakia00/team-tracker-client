@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Label, TextInput } from "flowbite-react";
 
 
-const CheckoutForm = ({ salary, _id, email }) => {
+const CheckoutForm = ({ salary, _id, email, setOpenModal }) => {
     const [error, setError] = useState([]);
     const [clientSecret, setClientSecret] = useState('');
     const [transactionId, setTransactionId] = useState('');
@@ -74,6 +74,7 @@ const CheckoutForm = ({ salary, _id, email }) => {
             if (paymentIntent.status === 'succeeded') {
                 console.log('transaction id', paymentIntent.id);
                 setTransactionId(paymentIntent.id);
+                console.log(transactionId);
 
                 const payment = {
                     employeeId: _id,
@@ -83,26 +84,22 @@ const CheckoutForm = ({ salary, _id, email }) => {
                     date: date,
                 }
 
-                // const res = await axiosSecure.post(`/payments`, payment)
-                // console.log('payment saved', res.data);
-                // // refetch();
-                // if (res.data.insertedId) {
-                //     toast.success('Payment Successful');
-                // }
-
                 try {
                     const res = await axiosSecure.post(`/payments`, payment)
     
                     if (res.data.insertedId) {
                         toast.success('Payment Successful');
+                        setOpenModal(false);
                     }
                 } catch (error) {
                     // Check if the error is due to a duplicate payment
                     if (error.response && error.response.status === 400) {
                         toast.error('Payment already made for this month');
+                        setOpenModal(false);
                     } else {
                         console.error('Error processing payment:', error);
                         toast.error('Error processing payment');
+                        setOpenModal(false);
                     }
                 }
             }
@@ -160,9 +157,6 @@ const CheckoutForm = ({ salary, _id, email }) => {
             />
             <button className="bg-blue-800 text-white py-3 px-5 rounded-xl my-5">Pay</button>
             <p className="text-red-600">{error}</p>
-            {
-                transactionId && <p className="text-green-600">Your Transaction Id: {transactionId} </p>
-            }
         </form>
     );
 };
