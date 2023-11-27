@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Label, TextInput } from "flowbite-react";
 
 
-const CheckoutForm = ({ salary, _id }) => {
+const CheckoutForm = ({ salary, _id, email }) => {
     const [error, setError] = useState([]);
     const [clientSecret, setClientSecret] = useState('');
     const [transactionId, setTransactionId] = useState('');
@@ -55,6 +55,7 @@ const CheckoutForm = ({ salary, _id }) => {
             setError('');
         }
 
+        // payment confirmation
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
@@ -75,26 +76,25 @@ const CheckoutForm = ({ salary, _id }) => {
                 setTransactionId(paymentIntent.id);
 
                 const payment = {
-                    _id: _id,
+                    employeeId: _id,
+                    email: email,
                     amount: salary,
                     transactionId: paymentIntent.id,
                     date: date,
                 }
 
-                // const res = await axiosSecure.patch(`/users/hr/${_id}/payments`, payment)
+                // const res = await axiosSecure.post(`/payments`, payment)
                 // console.log('payment saved', res.data);
                 // // refetch();
-                // if (res.data.modifiedCount > 0) {
+                // if (res.data.insertedId) {
                 //     toast.success('Payment Successful');
-                //     // navigate('/dashboard/paymentHistory')
                 // }
 
                 try {
-                    const res = await axiosSecure.patch(`/users/hr/${_id}/payments`, payment)
+                    const res = await axiosSecure.post(`/payments`, payment)
     
-                    if (res.data.modifiedCount > 0) {
+                    if (res.data.insertedId) {
                         toast.success('Payment Successful');
-                        // navigate('/dashboard/paymentHistory')
                     }
                 } catch (error) {
                     // Check if the error is due to a duplicate payment
@@ -160,9 +160,9 @@ const CheckoutForm = ({ salary, _id }) => {
             />
             <button className="bg-blue-800 text-white py-3 px-5 rounded-xl my-5">Pay</button>
             <p className="text-red-600">{error}</p>
-            {/* {
+            {
                 transactionId && <p className="text-green-600">Your Transaction Id: {transactionId} </p>
-            } */}
+            }
         </form>
     );
 };

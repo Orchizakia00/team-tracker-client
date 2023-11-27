@@ -91,7 +91,7 @@ const EmployeeList = () => {
                                                                 <h3 className="text-xl font-medium text-gray-900 dark:text-white">Make Payment for {selectedEmployee?.name}</h3>
                                                                 <div>
                                                                     <Elements stripe={stripPromise}>
-                                                                        <CheckoutForm salary={selectedEmployee.salary} _id={selectedEmployee._id}></CheckoutForm>
+                                                                        <CheckoutForm salary={selectedEmployee.salary} _id={selectedEmployee._id} email={selectedEmployee.email}></CheckoutForm>
                                                                     </Elements>
                                                                 </div>
 
