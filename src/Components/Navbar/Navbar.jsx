@@ -46,8 +46,6 @@ function Component() {
                             {user && <span className="block truncate text-sm font-medium">{user.email}</span>}
                         </Dropdown.Header>
                         <Link to={'/dashboard'}><Dropdown.Item>Dashboard</Dropdown.Item></Link>
-                        <Dropdown.Item>Settings</Dropdown.Item>
-                        <Dropdown.Item>Earnings</Dropdown.Item>
                         <Dropdown.Divider />
                         {
                             user && <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>

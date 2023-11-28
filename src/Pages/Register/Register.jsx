@@ -1,7 +1,6 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import SocialLogin from "../../Components/Shared/SocialLogin";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
@@ -101,12 +100,6 @@ const Register = () => {
                         </div>
                         <TextInput id="name" name="name" type="text" placeholder="Name" required />
                     </div>
-                    {/* <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="name" value="PhotoURL" />
-                        </div>
-                        <TextInput id="photo" name="photo" type="text" placeholder="PhotoURL" required />
-                    </div> */}
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="PhotoURL" />
@@ -126,7 +119,6 @@ const Register = () => {
                         <select name="role" defaultValue="default"
                             className="w-full">
                             <option disabled value="default">Select Role</option>
-                            <option value="admin">Admin</option>
                             <option value="hr">HR</option>
                             <option value="employee">Employee</option>
                         </select>
@@ -150,9 +142,8 @@ const Register = () => {
                         <TextInput id="password1" name="password" type="password" placeholder="Password" required />
                     </div>
                     <Button type="submit">Register</Button>
-                    <SocialLogin />
                 </form>
-                <p className="text-center">Already have an account? Please <Link to={'/login'}><span className="text-blue-600 font-bold">Login</span></Link></p>
+                <p className="text-center mt-2">Already have an account? Please <Link to={'/login'}><span className="text-blue-600 font-bold">Login</span></Link></p>
             </div>
         </div>
     );

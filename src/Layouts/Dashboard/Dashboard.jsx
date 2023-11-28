@@ -1,7 +1,7 @@
 'use client';
 
-import { Sidebar } from 'flowbite-react';
-import { FaFile, FaMoneyBill, FaTruckLoading, FaUsers } from 'react-icons/fa';
+import { Dropdown, Sidebar } from 'flowbite-react';
+import { FaChartLine, FaFile, FaHome, FaMoneyBill, FaTruckLoading, FaUsers } from 'react-icons/fa';
 import { Link, Outlet } from 'react-router-dom';
 import useAdmin from '../../Hooks/useAdmin';
 import useHR from '../../Hooks/useHR';
@@ -18,6 +18,18 @@ const Dashboard = () => {
                 <Sidebar aria-label="Default sidebar example">
                     <Sidebar.Items className='min-h-full bg-blue-200'>
                         <Sidebar.ItemGroup>
+
+                            <Link to={'/'}>
+                                <Sidebar.Item icon={FaHome}>
+                                    Home
+                                </Sidebar.Item>
+                            </Link>
+                            <Link to={'/dashboard'}>
+                                <Sidebar.Item icon={FaChartLine}>
+                                    Dashboard
+                                </Sidebar.Item>
+                            </Link>
+                            <Dropdown.Divider />
 
                             {/* admin menu */}
                             {

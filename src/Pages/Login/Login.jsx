@@ -1,10 +1,9 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, Label, TextInput } from "flowbite-react";
-import SocialLogin from "../../Components/Shared/SocialLogin";
-import useAuth from "../../Hooks/useAuth";
-import toast from "react-hot-toast";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import { Button, Label, TextInput } from "flowbite-react";
+import toast from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
 const Login = () => {
@@ -69,7 +68,6 @@ const Login = () => {
                         <TextInput id="password1" name="password" type="password" placeholder="Password" required />
                     </div>
                     <Button type="submit">Login</Button>
-                    <SocialLogin />
                 </form>
                 <p className="text-center mt-6">Do not have an account? Please <Link to={'/register'}><span className="text-blue-600 font-bold">Register</span></Link></p>
             </div>
