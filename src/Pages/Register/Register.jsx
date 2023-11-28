@@ -102,7 +102,7 @@ const Register = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="name" value="PhotoURL" />
+                            <Label htmlFor="name" value="Photo" />
                         </div>
                         <TextInput id="photo" name="photo" type="file" placeholder="PhotoURL" required />
                     </div>
