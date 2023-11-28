@@ -5,6 +5,8 @@ import SocialLogin from "../../Components/Shared/SocialLogin";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const Register = () => {
 
@@ -12,69 +14,83 @@ const Register = () => {
     const { createUser, updateUserProfile } = useAuth();
     const navigate = useNavigate();
 
-    const handleRegister = async  (event) => {
+    const handleRegister = async (event) => {
         event.preventDefault();
-
         const form = event.target;
-        const name = form.name.value;
-        const photo = form.photo.value;
-        const bank = form.bank.value;
-        const role = form.role.value;
-        const salary = form.salary.value;
-        const email = form.email.value;
-        const password = form.password.value;
-        const data = {
-            name,
-            photo,
-            bank,
-            role,
-            salary,
-            email,
-            password
-        };
 
-        console.log(data);
+        const photoInput = form.photo.files[0];
 
-        if (password.length < 6) {
-            toast.error('Password should be at least 6 characters or longer!');
-            return;
-        }
-        else if (!(/[A-Z]/.test(password) && /[!@#$%^&*(),.?":{}|<>]/.test(password))) {
-            toast.error('Your password should have at least one uppercase letter and a special character.');
-            return;
-        }
+        const formData = new FormData();
+        formData.append('image', photoInput);
+        fetch(image_hosting_api, {
+            method: 'POST', body: formData
+        })
+            .then(res => res.json())
+            .then(imgData => {
+                if (imgData.success) {
+                    console.log('imgData', imgData);
 
-        createUser(email, password)
-            .then(result => {
-                const loggedUser = result.user;
-                console.log(loggedUser);
-                updateUserProfile(data.name, data.photo)
-                    .then(() => {
-                        console.log('user profile updated successfully');
-                        const userInfo = {
-                            name: data.name,
-                            email: data.email,
-                            role: data.role,
-                            bank: data.bank,
-                            salary: data.salary,
-                            photo: data.photo,
-                        }
-                        axiosPublic.post('/users', userInfo)
-                            .then(res => {
-                                if (res.data.insertedId) {
-                                    toast.success('User Created Successfully!')
-                                    navigate('/')
-                                }
-                            })
+                    const name = form.name.value;
+                    const bank = form.bank.value;
+                    const role = form.role.value;
+                    const salary = form.salary.value;
+                    const email = form.email.value;
+                    const password = form.password.value;
 
-                    })
-            })
+                    const data = {
+                        name,
+                        photo: imgData.data.display_url,
+                        bank,
+                        role,
+                        salary,
+                        email,
+                        password
+                    };
+
+                    console.log(data);
+
+                    if (password.length < 6) {
+                        toast.error('Password should be at least 6 characters or longer!');
+                        return;
+                    }
+                    else if (!(/[A-Z]/.test(password) && /[!@#$%^&*(),.?":{}|<>]/.test(password))) {
+                        toast.error('Your password should have at least one uppercase letter and a special character.');
+                        return;
+                    }
+
+                    createUser(email, password)
+                        .then(result => {
+                            const loggedUser = result.user;
+                            console.log(loggedUser);
+                            updateUserProfile(data.name, data.photo)
+                                .then(() => {
+                                    console.log('user profile updated successfully');
+                                    const userInfo = {
+                                        name: data.name,
+                                        email: data.email,
+                                        role: data.role,
+                                        bank: data.bank,
+                                        salary: data.salary,
+                                        photo: data.photo,
+                                    }
+                                    axiosPublic.post('/users', userInfo)
+                                        .then(res => {
+                                            if (res.data.insertedId) {
+                                                toast.success('User Created Successfully!')
+                                                navigate('/')
+                                            }
+                                        })
+
+                                })
+                        })
+                }
+            });
     }
 
     return (
         <div className="flex my-10 lg:w-[1200px] mx-auto bg-white">
-            <div className="flex-1">
-                <img src="https://i.ibb.co/DzjwVLx/user-verification-unauthorized-access-prevention-private-account-authentication-cyber-security-peopl.jpg" alt="" />
+            <div className="flex-1 items-center justify-center flex">
+                <img src="https://i.ibb.co/DzjwVLx/user-verification-unauthorized-access-prevention-private-account-authentication-cyber-security-peopl.jpg" className="" alt="" />
             </div>
             <div className="mt-10 flex-1">
                 <h2 className="text-5xl text-center font-bold">Register Now</h2>
@@ -85,11 +101,17 @@ const Register = () => {
                         </div>
                         <TextInput id="name" name="name" type="text" placeholder="Name" required />
                     </div>
-                    <div>
+                    {/* <div>
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="PhotoURL" />
                         </div>
                         <TextInput id="photo" name="photo" type="text" placeholder="PhotoURL" required />
+                    </div> */}
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="name" value="PhotoURL" />
+                        </div>
+                        <TextInput id="photo" name="photo" type="file" placeholder="PhotoURL" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
