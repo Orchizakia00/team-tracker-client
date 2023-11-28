@@ -14,6 +14,7 @@ import PaymentHistory from "../Pages/Dashboard/EmployeePages/PaymentHistory";
 import WorkSheet from "../Pages/Dashboard/EmployeePages/WorkSheet";
 import AdminRoute from "./AdminRoute";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
         path: '/dashboard',
         element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
+            {
+                path: "/dashboard",
+                element: <DashboardHome></DashboardHome>
+            },
             // hr specific routes
             {
                 path: 'employee-list',
@@ -43,7 +48,7 @@ const router = createBrowserRouter([
             {
                 path: 'employee-details/:id',
                 element: <EmployeeDetails />,
-                loader: ({params}) => fetch(`http://localhost:5000/users/hr/${params.id}`)
+                loader: ({params}) => fetch(`https://team-tracker-server.vercel.app/users/hr/${params.id}`)
             },
             {
                 path: 'progress',
