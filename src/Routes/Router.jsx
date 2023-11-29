@@ -16,6 +16,7 @@ import AdminRoute from "./AdminRoute";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import Services from "../Pages/Home/Services/Services";
+import Faq from "../Pages/Faq/Faq";
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 path: '/contact',
                 element: <ContactUs />
+            },
+            {
+                path: '/faq',
+                element: <Faq />
             },
         ]
     },

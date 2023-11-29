@@ -4,6 +4,9 @@ import SectionTitle from '../../Components/Shared/SectionTitle';
 const ContactUs = () => {
     return (
         <>
+            <div className='w-full mt-6 mb-10'>
+                <img className='w-full h-[700px]' src="https://i.ibb.co/3cw2svy/businessman-businesswoman-team-1214-343.jpg" alt="" />
+            </div>
             <SectionTitle heading={'Contact Us'} subHeading={'Send Your Valuable Feedback'}></SectionTitle>
             <Container sx={{
                 display: 'flex',

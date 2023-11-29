@@ -87,7 +87,7 @@ const Register = () => {
     }
 
     return (
-        <div className="flex my-10 lg:w-[1200px] mx-auto bg-white">
+        <div className="flex flex-col lg:flex-row my-10 lg:w-[1200px] mx-auto bg-white">
             <div className="flex-1 items-center justify-center flex">
                 <img src="https://i.ibb.co/DzjwVLx/user-verification-unauthorized-access-prevention-private-account-authentication-cyber-security-peopl.jpg" className="" alt="" />
             </div>
