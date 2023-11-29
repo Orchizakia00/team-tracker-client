@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, Card, Table } from "flowbite-react";
-import { FaFire, FaUser } from "react-icons/fa";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import toast from "react-hot-toast";
-import SectionTitle from "../../../Components/Shared/SectionTitle";
 import { useState } from "react";
-import CardView from "./CardView";
+import toast from "react-hot-toast";
+import { FaFire, FaUser } from "react-icons/fa";
+import SectionTitle from "../../../Components/Shared/SectionTitle";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 
 const AllEmployeeList = () => {
