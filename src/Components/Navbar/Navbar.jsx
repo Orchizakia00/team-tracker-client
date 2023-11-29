@@ -20,6 +20,7 @@ function Component() {
 
     const navLinks = <>
         <Link to={'/'}><Navbar.Link href="#">Home</Navbar.Link></Link>
+        <Link to={'/services'}><Navbar.Link href="#">Services</Navbar.Link></Link>
         <Link to={'/contact'}><Navbar.Link href="#">Contact Us</Navbar.Link></Link>
         {
             !user && <Link to={'/login'}><Navbar.Link href="#">Login</Navbar.Link></Link>

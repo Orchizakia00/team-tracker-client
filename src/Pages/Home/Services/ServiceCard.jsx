@@ -14,8 +14,8 @@ const ServiceCard = ({ service, icon: Icon }) => {
                 variant="outlined"
                 sx={{
                     width: 320,
-                    // to make the card resizable
                     overflow: 'auto',
+                    height: 200,
                     resize: 'horizontal',
                 }}
             >
@@ -27,7 +27,6 @@ const ServiceCard = ({ service, icon: Icon }) => {
                     }}
                 >
                     <Avatar size="lg" >
-                        {/* <FaBriefcase></FaBriefcase> */}
                         <Icon></Icon>
                     </Avatar>
                     

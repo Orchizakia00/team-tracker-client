@@ -15,6 +15,7 @@ import WorkSheet from "../Pages/Dashboard/EmployeePages/WorkSheet";
 import AdminRoute from "./AdminRoute";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import Services from "../Pages/Home/Services/Services";
 
 const router = createBrowserRouter([
     {
@@ -27,9 +28,13 @@ const router = createBrowserRouter([
                 element: <Home></Home>
             },
             {
+                path: '/services',
+                element: <Services />
+            },
+            {
                 path: '/contact',
                 element: <ContactUs />
-            }
+            },
         ]
     },
     {
