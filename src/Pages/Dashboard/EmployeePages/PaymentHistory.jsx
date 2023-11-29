@@ -53,34 +53,36 @@ const PaymentHistory = () => {
         <div>
             <SectionTitle heading={'Payment History'}></SectionTitle>
 
-            <Table hoverable>
-                <Table.Head>
-                    <Table.HeadCell>Index</Table.HeadCell>
-                    <Table.HeadCell>Employee Name</Table.HeadCell>
-                    <Table.HeadCell>Salary</Table.HeadCell>
-                    <Table.HeadCell>Month</Table.HeadCell>
-                    <Table.HeadCell>Transaction Id</Table.HeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
-                    {
-                        sortedPayments.map((payment, index) =>
-                            <Table.Row key={payment._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                <Table.Cell>{index + 1}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                    {user.displayName}
-                                </Table.Cell>
-                                <Table.Cell>{payment.amount}</Table.Cell>
-                                <Table.Cell>
-                                    {payment.date.month}, {payment.date.year}
-                                </Table.Cell>
-                                <Table.Cell>
-                                    {payment.transactionId}
-                                </Table.Cell>
-                            </Table.Row>
-                        )
-                    }
-                </Table.Body>
-            </Table>
+            <div className="overflow-x-auto">
+                <Table hoverable>
+                    <Table.Head>
+                        <Table.HeadCell>Index</Table.HeadCell>
+                        <Table.HeadCell>Employee Name</Table.HeadCell>
+                        <Table.HeadCell>Salary</Table.HeadCell>
+                        <Table.HeadCell>Month</Table.HeadCell>
+                        <Table.HeadCell>Transaction Id</Table.HeadCell>
+                    </Table.Head>
+                    <Table.Body className="divide-y">
+                        {
+                            sortedPayments.map((payment, index) =>
+                                <Table.Row key={payment._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                    <Table.Cell>{index + 1}</Table.Cell>
+                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                        {user.displayName}
+                                    </Table.Cell>
+                                    <Table.Cell>{payment.amount}</Table.Cell>
+                                    <Table.Cell>
+                                        {payment.date.month}, {payment.date.year}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {payment.transactionId}
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
+                        }
+                    </Table.Body>
+                </Table>
+            </div>
         </div>
     );
 };

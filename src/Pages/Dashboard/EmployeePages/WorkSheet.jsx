@@ -80,7 +80,7 @@ const WorkSheet = () => {
             </form>
 
             <SectionTitle heading={'Saved Works'}></SectionTitle>
-            <div className="mb-20">
+            <div className="mb-20 overflow-x-auto">
                 <Table hoverable>
                     <Table.Head>
                         <Table.HeadCell>Index</Table.HeadCell>

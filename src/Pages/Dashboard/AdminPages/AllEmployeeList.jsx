@@ -76,7 +76,7 @@ const AllEmployeeList = () => {
         <div>
             <SectionTitle heading={'All Employees'} subHeading={`Total Employees: ${users.length}`}></SectionTitle>
 
-            <div className="mb-20">
+            <div className="mb-20 overflow-x-auto">
                 <Table hoverable>
                     <Table.Head>
                         <Table.HeadCell>Index</Table.HeadCell>

@@ -151,34 +151,36 @@ const Progress = () => {
                 </div>
             </div>
 
-            <Table hoverable>
-                <Table.Head>
-                    <Table.HeadCell>Index</Table.HeadCell>
-                    <Table.HeadCell>Employee Name</Table.HeadCell>
-                    <Table.HeadCell>Tasks</Table.HeadCell>
-                    <Table.HeadCell>Working Hour</Table.HeadCell>
-                    <Table.HeadCell>Date</Table.HeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
-                    {
-                        filteredWorks.map((work, index) =>
-                            <Table.Row key={work._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                <Table.Cell>{index + 1}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                    {work?.name}
-                                </Table.Cell>
-                                <Table.Cell>{work.task}</Table.Cell>
-                                <Table.Cell>
-                                    {work.hour}
-                                </Table.Cell>
-                                <Table.Cell>
-                                    {work.date}
-                                </Table.Cell>
-                            </Table.Row>
-                        )
-                    }
-                </Table.Body>
-            </Table>
+            <div className="overflow-x-auto">
+                <Table hoverable>
+                    <Table.Head>
+                        <Table.HeadCell>Index</Table.HeadCell>
+                        <Table.HeadCell>Employee Name</Table.HeadCell>
+                        <Table.HeadCell>Tasks</Table.HeadCell>
+                        <Table.HeadCell>Working Hour</Table.HeadCell>
+                        <Table.HeadCell>Date</Table.HeadCell>
+                    </Table.Head>
+                    <Table.Body className="divide-y">
+                        {
+                            filteredWorks.map((work, index) =>
+                                <Table.Row key={work._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                    <Table.Cell>{index + 1}</Table.Cell>
+                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                        {work?.name}
+                                    </Table.Cell>
+                                    <Table.Cell>{work.task}</Table.Cell>
+                                    <Table.Cell>
+                                        {work.hour}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {work.date}
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
+                        }
+                    </Table.Body>
+                </Table>
+            </div>
         </div>
     );
 };

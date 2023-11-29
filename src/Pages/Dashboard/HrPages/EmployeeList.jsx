@@ -47,7 +47,7 @@ const EmployeeList = () => {
     return (
         <div>
             <SectionTitle heading={'Employee List'} />
-            <div className="mb-16">
+            <div className="mb-16 overflow-x-auto">
                 <Table hoverable>
                     <Table.Head>
                         <Table.HeadCell>Index</Table.HeadCell>

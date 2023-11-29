@@ -48,7 +48,7 @@ const Login = () => {
     }
 
     return (
-        <div className="flex my-10 lg:w-[1200px] mx-auto bg-white">
+        <div className="flex flex-col lg:flex-row my-10 lg:w-[1200px] mx-auto bg-white">
             <div className="flex-1">
                 <img src="https://i.ibb.co/7GdMRPn/sign-page-abstract-concept-illustration-335657-2242.jpg" alt="" />
             </div>
