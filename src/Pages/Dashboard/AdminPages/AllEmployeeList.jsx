@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { Button, Table } from "flowbite-react";
+import { Button, Card, Table } from "flowbite-react";
 import { FaFire, FaUser } from "react-icons/fa";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import SectionTitle from "../../../Components/Shared/SectionTitle";
+import { useState } from "react";
+import CardView from "./CardView";
 
 
 const AllEmployeeList = () => {
 
     const axiosSecure = useAxiosSecure();
+    const [viewMode, setViewMode] = useState('table');
 
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
@@ -72,43 +75,91 @@ const AllEmployeeList = () => {
         ));
     }
 
+    const renderCardView = () => {
+        return (
+            <div className="flex flex-wrap">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    {
+                        users.map((user) =>
+                            <Card key={user._id} className="w-80 h-56">
+                                <div className="flex justify-between">
+                                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                        {user.name}
+                                    </h5>
+                                    <span className="text-lg text-gray-500">Role: {user?.role}</span>
+                                </div>
+
+                                <div className="flex justify-between mt-16">
+                                    <p>Make HR: <span> {user.role === 'HR' ? "HR" : <Button onClick={() => handleMakeHR(user)} className="text-blue-600 bg-white hover:text-white">
+                                        <FaUser size={20} />
+                                    </Button>}</span></p>
+
+                                    <p>Action: <span>{user.action === 'fired' ? "Fired" : <Button onClick={() => handleFire(user)} className="text-red-600 bg-white hover:text-white">
+                                        <FaFire size={20}></FaFire>
+                                    </Button>}</span></p>
+                                </div>
+
+                            </Card>
+                        )
+                    }
+
+                </div>
+
+            </div>
+
+        );
+    };
+
     return (
         <div>
             <SectionTitle heading={'All Employees'} subHeading={`Total Employees: ${users.length}`}></SectionTitle>
 
+            <Button className="mb-6" onClick={() => setViewMode(prevMode => (prevMode === 'table' ? 'card' : 'table'))}>
+                {viewMode === 'table' ? 'Card View' : 'Table View'}
+            </Button>
+
+
             <div className="mb-20 overflow-x-auto">
-                <Table hoverable>
-                    <Table.Head>
-                        <Table.HeadCell>Index</Table.HeadCell>
-                        <Table.HeadCell>Employee Name</Table.HeadCell>
-                        <Table.HeadCell>Designation</Table.HeadCell>
-                        <Table.HeadCell>Make HR</Table.HeadCell>
-                        <Table.HeadCell>Action</Table.HeadCell>
-                    </Table.Head>
-                    <Table.Body className="divide-y">
-                        {
-                            users.map((user, index) =>
-                                <Table.Row key={user._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                    <Table.Cell>{index + 1}</Table.Cell>
-                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                        {user.name}
-                                    </Table.Cell>
-                                    <Table.Cell>{user?.role}</Table.Cell>
-                                    <Table.Cell>
-                                        {user.role === 'HR' ? "HR" : <Button onClick={() => handleMakeHR(user)} className="text-blue-600 bg-white hover:text-white">
-                                            <FaUser size={20} />
-                                        </Button>}
-                                    </Table.Cell>
-                                    <Table.Cell>
-                                        {user.action === 'fired' ? "Fired" :<Button onClick={() => handleFire(user)} className="text-red-600 bg-white hover:text-white">
-                                            <FaFire size={20}></FaFire>
-                                        </Button>}
-                                    </Table.Cell>
-                                </Table.Row>
-                            )
-                        }
-                    </Table.Body>
-                </Table>
+                {
+                    viewMode === 'table' ? (
+                        <Table hoverable>
+                            <Table.Head>
+                                <Table.HeadCell>Index</Table.HeadCell>
+                                <Table.HeadCell>Employee Name</Table.HeadCell>
+                                <Table.HeadCell>Designation</Table.HeadCell>
+                                <Table.HeadCell>Make HR</Table.HeadCell>
+                                <Table.HeadCell>Action</Table.HeadCell>
+                            </Table.Head>
+                            <Table.Body className="divide-y">
+                                {
+                                    users.map((user, index) =>
+                                        <Table.Row key={user._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                            <Table.Cell>{index + 1}</Table.Cell>
+                                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                {user.name}
+                                            </Table.Cell>
+                                            <Table.Cell>{user?.role}</Table.Cell>
+                                            <Table.Cell>
+                                                {user.role === 'HR' ? "HR" : <Button onClick={() => handleMakeHR(user)} className="text-blue-600 bg-white hover:text-white">
+                                                    <FaUser size={20} />
+                                                </Button>}
+                                            </Table.Cell>
+                                            <Table.Cell>
+                                                {user.action === 'fired' ? "Fired" : <Button onClick={() => handleFire(user)} className="text-red-600 bg-white hover:text-white">
+                                                    <FaFire size={20}></FaFire>
+                                                </Button>}
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    )
+                                }
+                            </Table.Body>
+                        </Table>
+                    ) : (
+                        // <CardView></CardView>
+                        renderCardView()
+                    )
+                }
             </div>
         </div>
     );
