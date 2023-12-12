@@ -140,9 +140,25 @@ const AllEmployeeList = () => {
                                             </Table.Cell>
                                             <Table.Cell>{user?.role}</Table.Cell>
                                             <Table.Cell>
-                                                {user.role === 'HR' ? "HR" : <Button onClick={() => handleMakeHR(user)} className="text-blue-600 bg-white hover:text-white">
+                                                {/* {user.role === 'HR' ? "HR" : <Button onClick={() => handleMakeHR(user)} className="text-blue-600 bg-white hover:text-white">
                                                     <FaUser size={20} />
-                                                </Button>}
+                                                </Button>} */}
+                                                {user.role === 'admin' ? (
+                                                    <>Admin</>
+                                                ) : user.role === 'HR' ? (
+                                                    <>HR</>
+                                                ) : (
+                                                    <>
+                                                        {user.role !== 'HR' && (
+                                                            <Button
+                                                                onClick={() => handleMakeHR(user)}
+                                                                className="text-blue-600 bg-white hover:text-white"
+                                                            >
+                                                                <FaUser size={20} />
+                                                            </Button>
+                                                        )}
+                                                    </>
+                                                )}
                                             </Table.Cell>
                                             <Table.Cell>
                                                 {user.action === 'fired' ? "Fired" : <Button onClick={() => handleFire(user)} className="text-red-600 bg-white hover:text-white">
